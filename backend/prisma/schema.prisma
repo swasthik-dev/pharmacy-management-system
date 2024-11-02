@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id       String   @id @default(cuid())
+  email    String   @unique
+  name     String
+}
+
+model Medicine{
+  medicineId       String   @id
+  name     String
+  description String
+  price    Float
+  stockQty    Int
+  expiryDate  DateTime
+  orderDetails Order_Details[]
+  inventory Inventory[]
+}
+
+model Order{
+  orderId  String   @id
+  orderDate DateTime
+  customerId String
+  totalAmount Float
+  customer Customer @relation(fields: [customerId], references: [customerId])
+  orderdetails Order_Details[]
+}
+
+model Order_Details{
+  orderDetailId   String   @id
+  orderId         String
+  medicineId      String
+  qty             Int
+  subTotal        Int
+  order Order @relation(fields: [orderId], references: [orderId])
+  medicine Medicine @relation(fields: [medicineId], references: [medicineId])
+}
+
+model Inventory{
+  inventoryId       String   @id
+  medicineId        String
+  supplierId        String
+  qtyReceived       Int
+  dateReceived      Int
+  medicine Medicine @relation(fields: [medicineId], references: [medicineId])
+  supplier Supplier @relation(fields: [supplierId], references: [supplierId])
+}
+
+model Supplier{
+  supplierId        String @id
+  name              String
+  contactNumber     String
+  address           String
+  inventory Inventory[]
+}
+
+model Doctor{
+  doctorId          String @id
+  name              String
+  specialization    String
+  contactNumber     String
+  licenseNumber     String
+  prescriptions Prescription[]
+}
+
+model Customer{
+  customerId       String @id
+  name             String
+  contactNumber    String
+  address          String
+  email            String
+  orders           Order[]
+  prescriptions Prescription[]
+}
+
+model Prescription{
+  prescriptionId String @id
+  dateIssued DateTime
+  doctorId String
+  customerId String
+  doctor Doctor @relation(fields: [doctorId], references: [doctorId])
+  customer Customer @relation(fields: [customerId], references: [customerId])
+}
