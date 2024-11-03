@@ -1,49 +1,16 @@
 <script>
-  import { Route, Router, Link } from "svelte-routing";
+  import { onMount } from "svelte";
+  import { fetchMedicines } from "../api";
 
-  let medicines = [
-    {
-      id: 1,
-      name: "Paracetamol",
-      type: "Tablet",
-      quantity: 100,
-      expiry: "2024-12-31",
-    },
-    {
-      id: 2,
-      name: "Amoxicillin",
-      type: "Capsule",
-      quantity: 50,
-      expiry: "2025-01-15",
-    },
-    {
-      id: 3,
-      name: "Ibuprofen",
-      type: "Tablet",
-      quantity: 200,
-      expiry: "2025-06-10",
-    },
-    {
-      id: 4,
-      name: "Metformin",
-      type: "Tablet",
-      quantity: 150,
-      expiry: "2024-11-05",
-    },
-    {
-      id: 5,
-      name: "Cetirizine",
-      type: "Syrup",
-      quantity: 75,
-      expiry: "2026-03-30",
-    },
-  ];
+  let medicines = []
 
-  let searchTerm = "";
-
-  $: filteredMedicines = medicines.filter((medicine) =>
-    medicine.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  onMount(async () =>{
+    try {
+      medicines = await fetchMedicines();
+    } catch (error) {
+      console.error(error)
+    }
+  })
 </script>
 
 <main class="container mx-auto p-10">
@@ -61,7 +28,8 @@
           >
             <th class="py-3 px-6 text-left">Med ID</th>
             <th class="py-3 px-6 text-left">Name</th>
-            <th class="py-3 px-6 text-left">Type</th>
+            <th class="py-3 px-6 text-left">Description</th>
+            <th class="py-3 px-6 text-left">Price</th>
             <th class="py-3 px-6 text-left">Stock Quantity</th>
             <th class="py-3 px-6 text-left">Expiry Date</th>
           </tr>
@@ -69,11 +37,12 @@
         <tbody class="text-foreground text-sm font-light">
           {#each medicines as medicine}
             <tr class="border-b border-white hover:bg-gray-600">
-              <td class="py-3 px-6">{medicine.id}</td>
+              <td class="py-3 px-6">{medicine.medicineId}</td>
               <td class="py-3 px-6">{medicine.name}</td>
-              <td class="py-3 px-6">{medicine.type}</td>
-              <td class="py-3 px-6">{medicine.quantity}</td>
-              <td class="py-3 px-6">{medicine.expiry}</td>
+              <td class="py-3 px-6">{medicine.description}</td>
+              <td class="py-3 px-6">{medicine.price}</td>
+              <td class="py-3 px-6">{medicine.stockQty}</td>
+              <td class="py-3 px-6">{medicine.expiryDate}</td>
             </tr>
           {/each}
         </tbody>
