@@ -1,27 +1,116 @@
 <script>
   import { onMount } from "svelte";
-  import { fetchMedicines } from "../api";
+  import {
+    fetchMedicines,
+    addMedicine,
+    updateMedicine,
+    deleteMedicine,
+    fetchLowStockMedicines,
+    fetchNearExpiryMedicines,
+  } from "../api";
+  import { link } from "svelte-routing";
 
-  let medicines = []
+  let medicines = [];
+  let category = ""; // Selected category for filtering
+  let medId = ""; // Medicine ID for search
+  let name = ""; // Medicine name for search
+  let categories = ["Pain Relief", "Antibiotics", "Vitamins", "Other"]; // Example categories
 
-  onMount(async () =>{
+  // Function to load medicines based on selected filters
+  async function loadMedicines() {
     try {
-      medicines = await fetchMedicines();
+      medicines = await fetchMedicines({ category, medId, name });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  })
+  }
+
+  // Get low-stock medicines
+  async function getLowStockMedicines(threshold) {
+    medicines = await fetchLowStockMedicines(threshold);
+  }
+
+  // Get near-expiry medicines
+  async function getNearExpiryMedicines(days) {
+    medicines = await fetchNearExpiryMedicines(days);
+  }
+
+  // Load medicines on component mount
+  onMount(() => {
+    loadMedicines();
+  });
 </script>
 
-<main class="container mx-auto p-10">
-  <div class="p-6">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Medicine Inventory</h1>
+<main class="container mx-auto p-3">
+  <div class="p-6 bg-[#708090]">
+    <h1 class="text-3xl font-bold mb-6 text-white">Medicine Inventory</h1>
 
-    <!-- Search Filter -->
+    <!-- Filter Section -->
+    <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <!-- Category Filter Dropdown -->
+      <div>
+        <label for="category-select" class="block text-white font-semibold mb-1"
+          >Filter by Category</label
+        >
+        <select
+          id="category-select"
+          bind:value={category}
+          on:change={loadMedicines}
+          class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+        >
+          <option value="">All Categories</option>
+          {#each categories as cat}
+            <option value={cat}>{cat}</option>
+          {/each}
+        </select>
+        <div class="flex p-3">
+          <button
+            on:click={() => getLowStockMedicines(10)}
+            class="bg-yellow-500 text-white mr-2 rounded"
+            >Show Low Stock Medicines</button
+          >
+          <button
+            on:click={() => getNearExpiryMedicines(30)}
+            class="bg-red-500 text-white p-1 rounded"
+            >Show Near Expiry Medicines</button
+          >
+        </div>
+      </div>
+
+      <!-- Medicine ID Search -->
+      <div>
+        <label for="med-id-input" class="block text-white font-semibold mb-1"
+          >Search by Medicine ID</label
+        >
+        <input
+          id="med-id-input"
+          type="text"
+          bind:value={medId}
+          on:input={loadMedicines}
+          class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+          placeholder="Enter Medicine ID"
+        />
+      </div>
+
+      <!-- Medicine Name Search -->
+      <div>
+        <label for="name-input" class="block text-white font-semibold mb-1"
+          >Search by Medicine Name</label
+        >
+        <input
+          id="name-input"
+          type="text"
+          bind:value={name}
+          on:input={loadMedicines}
+          class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+          placeholder="Enter Medicine Name"
+        />
+      </div>
+    </div>
 
     <!-- Medicine List -->
     {#if medicines.length}
-      <table class="min-w-full table-auto bg-background shadow-md rounded-lg">
+      <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
         <thead>
           <tr
             class="bg-[#524A4A] text-foreground uppercase text-sm leading-normal"
@@ -48,7 +137,16 @@
         </tbody>
       </table>
     {:else}
-      <p>No medicines found</p>
+      <p class="text-white">No medicines found</p>
     {/if}
+
+    <!-- Link to Add/Edit Medicine page -->
+    <button
+      use:link
+      href="/modify-medicine"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 p-2 rounded"
+    >
+      Modify Medicines
+    </button>
   </div>
 </main>
