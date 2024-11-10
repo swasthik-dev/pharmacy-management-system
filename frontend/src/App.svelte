@@ -17,7 +17,7 @@
       <Route path="/medicines" > <!-- let:params -->
         <MedicinePage />
       </Route>
-      <Route path="/modifymedicines">
+      <Route path="/modifymedicine">
         <Modifymedicine />
       </Route>
       <Route path="/supplier">

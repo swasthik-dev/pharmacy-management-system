@@ -2,9 +2,6 @@
   import { onMount } from "svelte";
   import {
     fetchMedicines,
-    addMedicine,
-    updateMedicine,
-    deleteMedicine,
     fetchLowStockMedicines,
     fetchNearExpiryMedicines,
   } from "../api";
@@ -141,12 +138,6 @@
     {/if}
 
     <!-- Link to Add/Edit Medicine page -->
-    <button
-      use:link
-      href="/modify-medicine"
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 p-2 rounded"
-    >
-      Modify Medicines
-    </button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 p-2 rounded"><a href="/modifymedicine">Modify Medicines</a></button>
   </div>
 </main>
