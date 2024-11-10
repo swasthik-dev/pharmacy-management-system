@@ -17,10 +17,10 @@
       <Route path="/medicines" > <!-- let:params -->
         <MedicinePage />
       </Route>
-      <Route>
+      <Route path="/modifymedicines">
         <Modifymedicine />
       </Route>
-      <Route>
+      <Route path="/supplier">
         <Supplier />
       </Route>
     </Router>
