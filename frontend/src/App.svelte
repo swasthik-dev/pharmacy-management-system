@@ -3,6 +3,7 @@
   import Sidebar from './components/sidebar.svelte';
   import MedicinePage from './pages/medicines.svelte'
     import Supplier from './pages/supplier.svelte';
+    import Inventory from './pages/inventory.svelte';
 
 </script>
 
@@ -16,8 +17,11 @@
       <Route path="/medicines" > <!-- let:params -->
         <MedicinePage />
       </Route>
-      <Route>
+      <Route path="/supplier" >
         <Supplier />
+      </Route>
+      <Route path="/inventory" >
+        <Inventory />
       </Route>
     </Router>
   </main>

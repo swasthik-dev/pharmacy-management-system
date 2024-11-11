@@ -9,3 +9,11 @@ export async function fetchMedicines() {
   }  
   return response.json();
 }
+export async function fetchInventory() {
+  const response = await fetch(`${API_BASE_URL}/inventory`);
+  console.log('Response from API:', response)
+  if (!response.ok){
+    throw new Error('Failed to fetch');
+  }  
+  return response.json();
+}
