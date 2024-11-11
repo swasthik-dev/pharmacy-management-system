@@ -94,11 +94,11 @@ app.put('/api/medicines/:medicineId', async (req, res) => {
 });
 
 // Delete a medicine
-app.delete('/api/medicines', async (req, res) => {
-  const { id } = req.params;
+app.delete('/api/medicines/:medicineId', async (req, res) => {
+  const { medicineId } = req.params;
   try {
     await prisma.medicine.delete({
-      where: { id },
+      where: { medicineId },
     });
     res.status(204).send();
   } catch (error) {

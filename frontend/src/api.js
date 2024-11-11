@@ -59,8 +59,8 @@ export async function updateMedicine(medicineId, medicineData) {
 }
 
 // Delete a medicine
-export async function deleteMedicine(id) {
-  const response = await fetch(`${API_BASE_URL}/medicines/${id}`, {
+export async function deleteMedicine(medicineId) {
+  const response = await fetch(`${API_BASE_URL}/medicines/${medicineId}`, {
     method: 'DELETE',
   });
   if (!response.ok) {
