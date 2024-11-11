@@ -72,18 +72,18 @@ app.post('/api/medicines', async (req, res) => {
 });
 
 // Update an existing medicine
-app.put('/api/medicines/:id', async (req, res) => {
-  const { id } = req.params;
-  const { name, description, price, stockQty, expiryDate, category } = req.body;
+app.put('/api/medicines/:medicineId', async (req, res) => {
+  const { medicineId } = req.params;
+  const { name, description, price, stockQty, expiryDate } = req.body;
   try {
     const updatedMedicine = await prisma.medicine.update({
-      where: { id: parseInt(id) },
+      where: { medicineId },
       data: {
         name,
         description,
-        price,
-        stockQty,
-        expiryDate,
+        price: parseFloat(price),
+        stockQty: parseInt(stockQty),
+        expiryDate: new Date(expiryDate)
       },
     });
     res.json(updatedMedicine);
@@ -94,11 +94,11 @@ app.put('/api/medicines/:id', async (req, res) => {
 });
 
 // Delete a medicine
-app.delete('/api/medicines/:id', async (req, res) => {
+app.delete('/api/medicines', async (req, res) => {
   const { id } = req.params;
   try {
     await prisma.medicine.delete({
-      where: { id: parseInt(id) },
+      where: { id },
     });
     res.status(204).send();
   } catch (error) {

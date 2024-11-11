@@ -45,8 +45,8 @@ export async function addMedicine(medicineData) {
 
 
 // Update medicine
-export async function updateMedicine(id, medicineData) {
-  const response = await fetch(`${API_BASE_URL}/medicines/${id}`, {
+export async function updateMedicine(medicineId, medicineData) {
+  const response = await fetch(`${API_BASE_URL}/medicines/${medicineId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(medicineData)
