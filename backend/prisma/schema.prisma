@@ -54,7 +54,7 @@ model Inventory{
   medicineId        String
   supplierId        String
   qtyReceived       Int
-  dateReceived      Int
+  dateReceived      DateTime
   medicine Medicine @relation(fields: [medicineId], references: [medicineId])
   supplier Supplier @relation(fields: [supplierId], references: [supplierId])
 }
