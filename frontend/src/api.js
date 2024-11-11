@@ -1,10 +1,9 @@
 const API_BASE_URL = 'http://localhost:3000/api';
 
 // Fetching medicines with optional filters
-export async function fetchMedicines({ category = "", medId = "", name = "" } = {}) {
+export async function fetchMedicines({medicineId = "", name = "" } = {}) {
   const query = new URLSearchParams();
-  if (category) query.append('category', category);
-  if (medId) query.append('medId', medId);
+  if (medicineId) query.append('medId', medicineId);
   if (name) query.append('name', name);
 
   const url = `${API_BASE_URL}/medicines?${query.toString()}`;
@@ -37,6 +36,7 @@ export async function addMedicine(medicineData) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(medicineData)
   });
+  console.log('Sending data:', medicineData)
   if (!response.ok) {
     throw new Error('Failed to add new medicine');
   }
@@ -51,6 +51,7 @@ export async function updateMedicine(id, medicineData) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(medicineData)
   });
+  console.log('Updating data:', medicineData)
   if (!response.ok) {
     throw new Error('Failed to update medicine');
   }

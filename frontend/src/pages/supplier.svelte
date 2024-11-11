@@ -14,10 +14,12 @@
           <tr
             class="bg-[#524A4A] text-foreground uppercase text-sm leading-normal"
           >
-            <th class="py-3 px-6 text-left">Supplier ID</th>
+            <th class="py-3 px-6 text-left">Medicine ID</th>
             <th class="py-3 px-6 text-left">Name</th>
-            <th class="py-3 px-6 text-left">Contact Number</th>
-            <th class="py-3 px-6 text-left">Address</th>
+            <th class="py-3 px-6 text-left">Description</th>
+            <th class="py-3 px-6 text-left">Price</th>
+            <th class="py-3 px-6 text-left">Stock Quantity</th>
+            <th class="py-3 px-6 text-left">Expiry Date</th>
           </tr>
         </thead>
         <tbody class="text-foreground text-sm font-light">

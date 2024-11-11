@@ -8,6 +8,18 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
+// List all medicine
+app.get('/api/medicines', async (req, res) => {
+  try{
+    const allmedicines = await prisma.medicine.findMany()
+    console.log('All medicines:', allmedicines)
+    res.json(allmedicines);
+  } catch (error) {
+    console.error('Error fetching medicines:', error);
+    res.status(500).json({ error: 'Failed to fetch medicines' });
+  }
+})
+
 // List medicines with optional category, medId, and name filter
 app.get('/api/medicines', async (req, res) => {
   const { category, medId, name } = req.query; // Read category, medId, and name from query params
@@ -27,12 +39,12 @@ app.get('/api/medicines', async (req, res) => {
       };
     }
 
-    const medicines = await prisma.medicine.findMany({
+    const filteredmedicines = await prisma.medicine.findMany({
       where: filterConditions,
     });
 
-    console.log('Filtered Medicines:', medicines);
-    res.json(medicines);
+    console.log('Filtered Medicines:', filteredmedicines);
+    res.json(filteredmedicines);
   } catch (error) {
     console.error('Error fetching medicines:', error);
     res.status(500).json({ error: 'Failed to fetch medicines' });
@@ -40,22 +52,21 @@ app.get('/api/medicines', async (req, res) => {
 });
 
 app.post('/api/medicines', async (req, res) => {
-  const { medicineId, name, description, price, stockQty, expiryDate, category } = req.body;
+  const { medicineId, name, description, price, stockQty, expiryDate } = req.body;
   try {
     const newMedicine = await prisma.medicine.create({
       data: {
         medicineId,
         name,
         description,
-        price,
-        stockQty,
+        price: parseInt(price),
+        stockQty:parseInt(stockQty),
         expiryDate: new Date(expiryDate),
-        category
       },
     });
     res.status(201).json(newMedicine);
   } catch (error) {
-    console.error('Error adding new medicine:', error);
+    console.error('Error adding new medicine:', error.message || error);
     res.status(500).json({ error: 'Failed to add medicine' });
   }
 });
@@ -72,8 +83,7 @@ app.put('/api/medicines/:id', async (req, res) => {
         description,
         price,
         stockQty,
-        expiryDate: new Date(expiryDate),
-        category
+        expiryDate,
       },
     });
     res.json(updatedMedicine);

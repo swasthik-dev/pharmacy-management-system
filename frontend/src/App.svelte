@@ -3,8 +3,10 @@
   import Sidebar from './components/sidebar.svelte';
   import MedicinePage from './pages/medicines.svelte'
   import Supplier from './pages/supplier.svelte';
-  import Modifymedicine from './pages/modifymedicine.svelte';
-    import Inventory from './pages/inventory.svelte';
+  import Inventory from './pages/inventory.svelte';
+  import Addmedicine from './pages/addmedicine.svelte';
+  import Updatemedicine from './pages/updatemedicine.svelte';
+  import Deletemedicine from './pages/deletemedicine.svelte';
 
 </script>
 
@@ -18,8 +20,14 @@
       <Route path="/medicines" > <!-- let:params -->
         <MedicinePage />
       </Route>
-      <Route path="/modifymedicine">
-        <Modifymedicine />
+      <Route path="/addmedicine">
+        <Addmedicine />
+      </Route>
+      <Route path="/updatemedicine">
+        <Updatemedicine />
+      </Route>
+      <Route path="/deletemedicine">
+        <Deletemedicine />
       </Route>
       <Route path="/supplier">
         <Supplier />

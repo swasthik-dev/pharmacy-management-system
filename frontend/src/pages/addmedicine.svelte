@@ -1,7 +1,6 @@
 <!-- ModifyMedicine.svelte -->
 <script>
-  import { onMount } from "svelte";
-  import { addMedicine, updateMedicine, deleteMedicine } from "../api";
+  import { addMedicine, deleteMedicine } from "../api";
 
   let medicineId = "";
   let name = "";
@@ -11,11 +10,13 @@
   let expiryDate = "";
 
   const handleAddMedicine = async () => {
-    await addMedicine({ medicineId, name, description, price, stockQty, expiryDate });
-  };
-
-  const handleUpdateMedicine = async () => {
-    await updateMedicine({ medicineId, name, description, price, stockQty, expiryDate });
+    try {
+      await addMedicine({ medicineId, name, description, price, stockQty, expiryDate });
+      alert("Added Medicine Successfully!");
+    } catch (error) {
+      console.error('Failed to add medicine:', error);
+      alert('Failed to add medicine')
+    }
   };
 
   const handleDeleteMedicine = async () => {
@@ -55,11 +56,5 @@
 
   <button on:click={handleAddMedicine} class="bg-green-500 text-white py-2 px-4 rounded">
     Add Medicine
-  </button>
-  <button on:click={handleUpdateMedicine} class="bg-yellow-500 text-white py-2 px-4 rounded">
-    Update Medicine
-  </button>
-  <button on:click={handleDeleteMedicine} class="bg-red-500 text-white py-2 px-4 rounded">
-    Delete Medicine
   </button>
 </main>
