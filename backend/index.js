@@ -51,6 +51,7 @@ app.get('/api/medicines', async (req, res) => {
   }
 });
 
+// Adding medicine
 app.post('/api/medicines', async (req, res) => {
   const { medicineId, name, description, price, stockQty, expiryDate } = req.body;
   try {
