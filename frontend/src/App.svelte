@@ -4,7 +4,7 @@
   import MedicinePage from './pages/medicines.svelte'
   import Supplier from './pages/supplier.svelte';
   import Inventory from './pages/inventory.svelte';
-  import Orders from './pages/orders.svelte';
+  // import Orders from './pages/orders.svelte';
   import Addmedicine from './pages/addmedicine.svelte';
   import Updatemedicine from './pages/updatemedicine.svelte';
   import Deletemedicine from './pages/deletemedicine.svelte';
@@ -36,9 +36,9 @@
       <Route path="/inventory" >
         <Inventory />
       </Route>
-      <Route path="/orders" >
+      <!-- <Route path="/orders" >
         <Orders />
-      </Route>
+      </Route> -->
     </Router>
   </main>
 </div>
