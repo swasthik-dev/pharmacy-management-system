@@ -143,6 +143,17 @@ app.get('/api/medicines/near-expiry', async (req, res) => {
   }
 });
 
+// List all suppliers
+app.get('/api/suppliers', async (req, res) => {
+  try{
+    const allsuppliers = await prisma.supplier.findMany()
+    console.log('All suppliers:', allsuppliers)
+    res.json(allsuppliers);
+  } catch (error) {
+    console.error('Error fetching suppliers:', error);
+    res.status(500).json({ error: 'Failed to fetch suppliers' });
+  }
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
