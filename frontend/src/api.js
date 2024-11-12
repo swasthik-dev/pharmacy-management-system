@@ -85,3 +85,12 @@ export async function fetchNearExpiryMedicines(daysUntilExpiry = 30) {
   }
   return response.json();
 }
+
+export async function fetchSuppliers() {
+  const response = await fetch(`${API_BASE_URL}/suppliers`);
+  console.log('Response from API:', response)
+  if (!response.ok){
+    throw new Error('Failed to fetch suppliers');
+  }  
+  return response.json();
+}

@@ -1,32 +1,50 @@
+
+
 <script>
-  
+  import { onMount } from "svelte";
+  import { fetchSuppliers} from "../api";
+
+  let suppliers = [];
+
+  onMount(async () => {
+    try {
+      suppliers = await fetchSuppliers();
+    } catch (error) {
+      console.error(error);
+    }
+  });
 </script>
 
 <main class="container mx-auto p-10">
   <div class="p-6">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Supplier Page</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Supplier Directory</h1>
 
-    <!-- Search Filter -->
-
-    <!-- Medicine List -->
+    <!-- Supplier List -->
+    {#if suppliers.length}
       <table class="min-w-full table-auto bg-background shadow-md rounded-lg">
         <thead>
           <tr
-            class="bg-[#524A4A] text-foreground uppercase text-sm leading-normal"
+            class="bg-[#e7e7e8] text-foreground uppercase text-sm leading-normal"
           >
-            <th class="py-3 px-6 text-left">Medicine ID</th>
+            <th class="py-3 px-6 text-left">Supplier ID</th>
             <th class="py-3 px-6 text-left">Name</th>
-            <th class="py-3 px-6 text-left">Description</th>
-            <th class="py-3 px-6 text-left">Price</th>
-            <th class="py-3 px-6 text-left">Stock Quantity</th>
-            <th class="py-3 px-6 text-left">Expiry Date</th>
+            <th class="py-3 px-6 text-left">Contact Number</th>
+            <th class="py-3 px-6 text-left">Address</th>
           </tr>
         </thead>
         <tbody class="text-foreground text-sm font-light">
-          <tr>
-            <td>Hey</td>
-          </tr>
+          {#each suppliers as supplier}
+            <tr class="border-b border-white hover:bg-gray-600">
+              <td class="py-3 px-6">{supplier.supplierId}</td>
+              <td class="py-3 px-6">{supplier.name}</td>
+              <td class="py-3 px-6">{supplier.contactNumber}</td>
+              <td class="py-3 px-6">{supplier.address}</td>
+            </tr>
+          {/each}
         </tbody>
       </table>
+    {:else}
+      <p>No suppliers found</p>
+    {/if}
   </div>
 </main>
