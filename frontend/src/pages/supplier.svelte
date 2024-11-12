@@ -1,5 +1,3 @@
-
-
 <script>
   import { onMount } from "svelte";
   import { fetchSuppliers} from "../api";
@@ -16,15 +14,15 @@
 </script>
 
 <main class="container mx-auto p-10">
-  <div class="p-6">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800">Supplier Directory</h1>
+  <div class="p-6 bg-[#f1efefdc]">
+    <h1 class="text-3xl font-bold mb-6 text-black">Supplier Directory</h1>
 
     <!-- Supplier List -->
     {#if suppliers.length}
       <table class="min-w-full table-auto bg-background shadow-md rounded-lg">
         <thead>
           <tr
-            class="bg-[#e7e7e8] text-foreground uppercase text-sm leading-normal"
+            class="bg-[#bbbaba] text-foreground uppercase text-sm leading-normal"
           >
             <th class="py-3 px-6 text-left">Supplier ID</th>
             <th class="py-3 px-6 text-left">Name</th>
