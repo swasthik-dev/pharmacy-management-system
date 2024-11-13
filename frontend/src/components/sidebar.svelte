@@ -17,7 +17,7 @@
         >
       </li>
       <li class="text-xl font-bold p-5 hover:scale-110">
-        <a href="/sales" class="flex items-center space-x-1"
+        <a href="/orders" class="flex items-center space-x-1"
           ><span>Orders</span></a
         >
       </li>
