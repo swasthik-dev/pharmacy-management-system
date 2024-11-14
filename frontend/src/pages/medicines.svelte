@@ -8,15 +8,16 @@
   import { link } from "svelte-routing";
 
   let medicines = [];
+  let lowStockMedicines = [];
+  let expiringMedicines = [];
   let category = ""; // Selected category for filtering
   let medicineId = ""; // Medicine ID for search
   let name = ""; // Medicine name for search
-  let categories = ["Pain Relief", "Antibiotics", "Vitamins", "Other"]; // Example categories
 
   // Function to load medicines based on selected filters
   async function loadMedicines() {
     try {
-      medicines = await fetchMedicines({medicineId, name });
+      medicines = await fetchMedicines({ medicineId, name });
     } catch (error) {
       console.error(error);
     }
@@ -24,17 +25,27 @@
 
   // Get low-stock medicines
   async function getLowStockMedicines(threshold) {
-    medicines = await fetchLowStockMedicines(threshold);
+    try {
+      lowStockMedicines = await fetchLowStockMedicines(threshold);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // Get near-expiry medicines
   async function getNearExpiryMedicines(days) {
-    medicines = await fetchNearExpiryMedicines(days);
+    try {
+      expiringMedicines = await fetchNearExpiryMedicines(days);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // Load medicines on component mount
   onMount(() => {
     loadMedicines();
+    getLowStockMedicines();
+    getNearExpiryMedicines();
   });
 </script>
 

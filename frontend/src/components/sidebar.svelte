@@ -23,11 +23,6 @@
         >
       </li>
       <li class="text-xl font-bold p-5 hover:scale-110">
-        <a href="/inventory" class="flex items-center space-x-1 font-semibold"
-          ><span>Inventory</span></a
-        >
-      </li>
-      <li class="text-xl font-bold p-5 hover:scale-110">
         <a href="/customer" class="flex items-center space-x-1 font-semibold"
           ><span>Customer</span></a
         >
