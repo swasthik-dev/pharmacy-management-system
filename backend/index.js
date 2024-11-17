@@ -155,6 +155,29 @@ app.get('/api/suppliers', async (req, res) => {
   }
 })
 
+
+// Posting the order to database
+app.post('/api/orders', async (req, res) => {
+  const { orderDate, customerId, totalAmount } = req.body;
+
+  try {
+    const order = await prisma.order.create({
+      data: {
+        orderDate: orderDate,
+        customerId: customerId,
+        totalAmount: parseFloat(totalAmount),
+        
+      }
+    });
+    //  Return success response with the created order
+    res.status(200).json({ message: 'Order Placed Successfully', order});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to place order'});
+  }
+})
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('Server running on port:', PORT);

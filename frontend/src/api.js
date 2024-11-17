@@ -77,6 +77,7 @@ export async function fetchNearExpiryMedicines(daysUntilExpiry = 30) {
   return response.json();
 }
 
+//Fetch Suppliers
 export async function fetchSuppliers() {
   const response = await fetch(`${API_BASE_URL}/suppliers`);
   console.log('Response from API:', response)
@@ -85,3 +86,18 @@ export async function fetchSuppliers() {
   }  
   return response.json();
 }
+
+// Posting order to database
+export async function placeOrders(orderData) {
+  const orders = await fetch(`${API_BASE_URL}/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(orderData)
+  });
+  console.log('Placing order:', orderData)
+  if (!orders.ok) {
+    throw new Error('Failed to place order');
+  }
+  return orders.json
+}
+

@@ -31,7 +31,7 @@ model Medicine{
 }
 
 model Order{
-  orderId  String   @id
+  orderId  String   @id @default(cuid())
   orderDate DateTime
   customerId String
   totalAmount Float
@@ -40,7 +40,7 @@ model Order{
 }
 
 model Order_Details{
-  orderDetailId   String   @id
+  orderDetailId   String @id @default(cuid())
   orderId         String
   medicineId      String
   qty             Int
