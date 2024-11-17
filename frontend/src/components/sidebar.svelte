@@ -8,7 +8,7 @@
     <ul class="flex flex-col pt-12 space-y-5">
 
       <li class="text-xl font-bold p-5 hover:scale-110">
-        <a href="/medicines" class="flex items-center space-x-1 font-semibold"
+        <a href="/" class="flex items-center space-x-1 font-semibold"
           ><span>Medicine</span></a
         >
       </li>

@@ -13,13 +13,15 @@
 <div class="flex">
   <!-- Sidebar -->
   <Sidebar />
+  <Router>
+  <Route path="/" > <!-- let:params -->
+    <MedicinePage />
+  </Route>
+  </Router>
 
   <!-- Main Content Area -->
   <main class="max-w-full overflow-x-scroll p-4 ">
     <Router>
-      <Route path="/medicines" > <!-- let:params -->
-        <MedicinePage />
-      </Route>
       <Route path="/addmedicine">
         <Addmedicine />
       </Route>
