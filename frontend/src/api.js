@@ -85,3 +85,26 @@ export async function fetchNearExpiryMedicines(daysUntilExpiry = 30) {
   }
   return response.json();
 }
+
+// api.js
+
+// Fetch customers data
+export async function fetchCustomers() {
+  const response = await fetch('/api/customers');
+  if (!response.ok) throw new Error('Failed to fetch customers');
+  return response.json();
+}
+
+// Fetch low stock customers (if you need it)
+export async function fetchLowStockCustomers() {
+  const response = await fetch('/api/low-stock-customers');
+  if (!response.ok) throw new Error('Failed to fetch low stock customers');
+  return response.json();
+}
+
+// Fetch near expiry customers (if needed)
+export async function fetchNearExpiryCustomers() {
+  const response = await fetch('/api/near-expiry-customers');
+  if (!response.ok) throw new Error('Failed to fetch near expiry customers');
+  return response.json();
+}
