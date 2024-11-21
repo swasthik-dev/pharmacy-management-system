@@ -177,6 +177,17 @@ app.post('/api/orders', async (req, res) => {
   }
 })
 
+// List all medicine
+app.get('/api/customers', async (req, res) => {
+  try{
+    const allmedicines = await prisma.customer.findMany()
+    console.log('All medicines:', allmedicines)
+    res.json(allmedicines);
+  } catch (error) {
+    console.error('Error fetching medicines:', error);
+    res.status(500).json({ error: 'Failed to fetch medicines' });
+  }
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

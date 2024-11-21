@@ -4,6 +4,7 @@
   import MedicinePage from './pages/medicines.svelte'
   import Supplier from './pages/supplier.svelte';
   import Orders from './pages/orders.svelte';
+  import Customers from './pages/customers.svelte';
   import Addmedicine from './pages/addmedicine.svelte';
   import Updatemedicine from './pages/updatemedicine.svelte';
   import Deletemedicine from './pages/deletemedicine.svelte';
@@ -36,6 +37,9 @@
       </Route>
       <Route path="/orders" >
         <Orders />
+        </Route>
+      <Route path="/customer" >
+        <Customers />
       </Route>
     </Router>
   </main>
