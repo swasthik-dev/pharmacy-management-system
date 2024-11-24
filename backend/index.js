@@ -166,8 +166,7 @@ app.post('/api/orders', async (req, res) => {
         orderDate: orderDate,
         customerId: customerId,
         totalAmount: parseFloat(totalAmount),
-        
-      }
+      },
     });
     //  Return success response with the created order
     res.status(200).json({ message: 'Order Placed Successfully', order});
@@ -175,7 +174,50 @@ app.post('/api/orders', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Failed to place order'});
   }
-})
+});
+
+// Fetching customer by Phone number
+app.get('/api/customers/phone/:phoneNumber', async (req, res) => {
+  const { phoneNumber } = req.params;
+
+  try {
+    const customer = await prisma.customer.findUnique({
+      where: { contactNumber: phoneNumber },
+    });
+
+    if (!customer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    res.status(500).json({ error: "Failed to fetch customer" });
+  }
+});
+
+
+// Creating new customer
+app.post('/api/customers', async (req, res) => {
+  const { customerId, name, contactNumber, address, email } = req.body;
+
+  try {
+    const newCustomer = await prisma.customer.create({
+      data: {
+        customerId,
+        name,
+        contactNumber,
+        address,
+        email
+      },
+    });
+    res.status(201).json(newCustomer);
+  } catch (error) {
+    console.error("Error creating customer:", error);
+    res.status(500).json({ error: "Failed to create customer" });
+  }
+});
+
 
 // List all medicine
 app.get('/api/customers', async (req, res) => {
