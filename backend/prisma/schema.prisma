@@ -25,7 +25,7 @@ model Medicine {
 }
 
 model Order {
-  orderId      String          @id
+  orderId      String          @id @default(cuid())
   orderDate    DateTime
   customerId   String
   totalAmount  Float
@@ -73,7 +73,7 @@ model Doctor {
 model Customer {
   customerId    String         @id
   name          String
-  contactNumber String
+  contactNumber String @unique
   address       String
   email         String
   orders        Order[]
