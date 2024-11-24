@@ -101,6 +101,41 @@ export async function placeOrders(orderData) {
   return orders.json
 }
 
+
+// Displaying Order and Status
+export async function getOrderStatus(orderId) {
+  const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch order status');
+  }
+  return response.json();
+}
+
+// Fetch customer by phone number
+export async function fetchCustomerByPhone(phoneNumber) {
+  const response = await fetch(`${API_BASE_URL}/customers/phone/${phoneNumber}`);
+  if (response.ok) {
+    return response.json(); // Return customer data if found
+  }
+  return null; // Return null if customer not found
+}
+
+// Create a new customer
+export async function createNewCustomer(customerData) {
+  const response = await fetch(`${API_BASE_URL}/customers`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(customerData),
+  });
+
+  if (response.ok) {
+    return response.json(); // Return newly created customer data
+  }
+
+  return null; // Return null if customer creation failed
+}
+
+
 // Fetch customers data
 export async function fetchCustomers() {
   const response = await fetch('/api/customers');
