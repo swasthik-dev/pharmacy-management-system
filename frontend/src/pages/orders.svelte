@@ -1,10 +1,17 @@
 <script>
   import { onMount } from "svelte";
-  import { fetchMedicines, placeOrders } from "../api";
+  import {
+    fetchMedicines,
+    placeOrders,
+    getOrderStatus,
+    fetchCustomerByPhone,
+    createNewCustomer,
+  } from "../api";
 
   let medicines = [];
   let orders = [];
   let showModal = false;
+  let orderDetails = [];
 
   // Load Medicine to load medicine table when page loaded
   async function loadMedicines() {
@@ -67,35 +74,87 @@
 
   // Calculate grand total
   function calculateGrandTotal() {
-    const grandTotal =  orders
+    const grandTotal = orders
       .reduce((total, order) => total + order.selectedQty * order.price, 0)
       .toFixed(2);
-    return grandTotal
+    return grandTotal;
   }
 
   // Place order function
   async function placeOrder() {
-    if (orders.length === 0){
+    if (orders.length === 0) {
       alert("No items in order");
       return;
     }
 
-    const orderData = {
-      orderDate: new Date(),
-      customerId: "100",
-      totalAmount: calculateGrandTotal(),
+    // Ask for customer phoneNumber
+    const phoneNumber = prompt("Enter Phone Number:");
+    console.log("Phone number:", phoneNumber);
+    if (!phoneNumber) {
+      alert("Customer's Phone Number is required to place order!");
+      return;
     }
 
     try {
+      // Checking if customer exists
+      const customer = await fetchCustomerByPhone(phoneNumber);
+      console.log("Customer fetched:", customer);
+
+      let customerID;
+      if (!customer) {
+        const createCustomer = confirm(
+          "Phone number not found. Do you want to create new customer?",
+        );
+
+        if (createCustomer) {
+          const customerId = prompt("Enter customer ID:");
+          const customerName = prompt("Enter Customer Name:");
+          const customerAddress = prompt("Enter Address:");
+          const customerEmail = prompt("Enter Email:");
+          const newCustomer = await createNewCustomer({
+            customerId: customerId,
+            name: customerName,
+            contactNumber: phoneNumber,
+            address: customerAddress,
+            email: customerEmail,
+          });
+          console.log("New customer:", newCustomer);
+
+          if (!newCustomer) {
+            alert("Failed to create new customer");
+            return;
+          }
+          customerID = newCustomer.customerId;
+        }else {
+          return;
+        }
+      }else{
+        customerID = customer.customerId
+        alert("Customer already exists")
+      }
+      const orderData = {
+        orderDate: new Date(),
+        customerId: customerID,
+        totalAmount: calculateGrandTotal(),
+      };
+
       const response = await placeOrders(orderData);
-      console.log('Order placed:', response)
-      alert('Order Placed')
+      console.log("Order placed:", response);
+      alert("Order Placed");
       orders = [];
     } catch (error) {
-      alert('Failed to place order');
+      console.error("Error placing order", error);
+      alert("Failed to place order");
     }
   }
 
+  // Displaying Order Status
+  async function displayOrderStatus() {
+    if (orders.length > 0) {
+      const orderStatus = await getOrderStatus(orders[0].orderId);
+      console.log(orderStatus);
+    }
+  }
   onMount(() => {
     loadMedicines();
   });
@@ -174,13 +233,28 @@
     </div>
 
     <!-- Order Status -->
-     <div class="overflow-x-scroll border-2 border-[#524A4A] rounded-md"
-      style="scrollbar-width: none;">
-
+    <div
+      class="overflow-x-scroll border-2 border-[#524A4A] rounded-md"
+      style="scrollbar-width: none;"
+    >
       <div class="flex justify-between items-center">
         <h1 class="m-5 font-medium">Order Status</h1>
       </div>
-     </div>
+      <table
+        class="min-w-full border-collapse auto bg-white shadow-md rounded-lg"
+      >
+        <thead>
+          <tr
+            class="bg-[#bbbaba] text-foreground uppercase text-sm leading-normal"
+          >
+            <th class="py-3 px-6 text-left">Order ID</th>
+            <th class="py-3 px-6 text-left">Order Date</th>
+            <th class="py-3 px-6 text-left">Total Amount</th>
+            <th class="py-3 px-6 text-left">Order Status</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
   </div>
 
   <!-- Modal for Adding Medicines -->
