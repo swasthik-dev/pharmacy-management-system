@@ -6,11 +6,13 @@
     getOrderStatus,
     fetchCustomerByPhone,
     createNewCustomer,
+    saveOrderDetails,
   } from "../api";
 
   let medicines = [];
   let orders = [];
   let showModal = false;
+  let orderdetails;
   let orderDetails = [];
 
   // Load Medicine to load medicine table when page loaded
@@ -80,12 +82,20 @@
     return grandTotal;
   }
 
+  // Function to extract all medicine id from orders
+  function getDetails(){
+    return [orders.map(order => order.medicineId), orders.map(order => order.selectedQty), orders.map(order => order.selectedQty * order.price)];
+  }
+
   // Place order function
   async function placeOrder() {
     if (orders.length === 0) {
       alert("No items in order");
       return;
     }
+    
+    // Getting details
+    orderdetails = getDetails();
 
     // Ask for customer phoneNumber
     const phoneNumber = prompt("Enter Phone Number:");
@@ -130,7 +140,6 @@
         }
       }else{
         customerID = customer.customerId
-        alert("Customer already exists")
       }
       const orderData = {
         orderDate: new Date(),
@@ -151,12 +160,18 @@
   // Displaying Order Status
   async function displayOrderStatus() {
     if (orders.length > 0) {
-      const orderStatus = await getOrderStatus(orders[0].orderId);
-      console.log(orderStatus);
+      const orderStatus = await getOrderStatus();
     }
   }
+
+  // Saving detailed data of order to order_details
+  
+  const saveorderdetail = saveOrderDetails(orderdetails);
+  console.log(saveorderdetail);
+
   onMount(() => {
     loadMedicines();
+    /* displayOrderStatus(); */
   });
 </script>
 

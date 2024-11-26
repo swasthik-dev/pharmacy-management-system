@@ -98,7 +98,22 @@ export async function placeOrders(orderData) {
   if (!orders.ok) {
     throw new Error('Failed to place order');
   }
-  return orders.json
+  return orders.json();
+}
+
+
+// Saving to order details
+export async function saveOrderDetails(orderdetails) {
+  const orderdetail = await fetch(`${API_BASE_URL}/orderdetails`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(orderdetails)
+  });
+  console.log('Saving order details:', orderdetails)
+  if (!orderdetail.ok) {
+    throw new Error('Failed to save order details');
+  }
+  return orderdetail.json();
 }
 
 

@@ -218,6 +218,8 @@ app.post('/api/customers', async (req, res) => {
   }
 });
 
+// Posting detailed data on order to Order_Detail table
+
 
 // List all medicine
 app.get('/api/customers', async (req, res) => {
