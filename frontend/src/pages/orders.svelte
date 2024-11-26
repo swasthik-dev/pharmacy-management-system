@@ -13,7 +13,7 @@
   let orders = [];
   let showModal = false;
   let orderdetails;
-  let orderDetails = [];
+  let orderStatus = [];
 
   // Load Medicine to load medicine table when page loaded
   async function loadMedicines() {
@@ -157,22 +157,18 @@
     }
   }
 
-  // Displaying Order Status
-  async function displayOrderStatus() {
-    if (orders.length > 0) {
-      const orderStatus = await getOrderStatus();
-    }
-  }
-
   // Saving detailed data of order to order_details
   
-  const saveorderdetail = saveOrderDetails(orderdetails);
-  console.log(saveorderdetail);
+  /* const saveorderdetail = saveOrderDetails(orderdetails);
+  console.log(saveorderdetail); */
 
-  onMount(() => {
+  onMount(async () => {
     loadMedicines();
-    /* displayOrderStatus(); */
+    
+    // Displaying order status
+    orderStatus = await getOrderStatus(); 
   });
+
 </script>
 
 <main class="w-full">
@@ -268,6 +264,16 @@
             <th class="py-3 px-6 text-left">Order Status</th>
           </tr>
         </thead>
+        <tbody class="text-foreground text-sm font-light">
+          {#each orderStatus as status}
+            <tr class="border-b border-white hover:bg-[#d6d4d4]">
+              <td class="py-3 px-6">{status.orderId}</td>
+              <td class="py-3 px-6">{new Date(status.orderDate).toLocaleDateString()}</td>
+              <td class="py-3 px-6">{status.totalAmount}</td>
+              <td class="py-3 px-6">{status.status}</td>
+            </tr>
+          {/each}
+        </tbody>
       </table>
     </div>
   </div>
