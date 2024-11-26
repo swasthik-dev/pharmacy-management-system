@@ -118,12 +118,17 @@ export async function saveOrderDetails(orderdetails) {
 
 
 // Displaying Order and Status
-export async function getOrderStatus(orderId) {
-  const response = await fetch(`${API_BASE_URL}/orders/${orderId}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch order status');
+export async function getOrderStatus() {
+  try {    
+    const response = await fetch(`${API_BASE_URL}/orders/status`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch order status');
+    }
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-  return response.json();
 }
 
 // Fetch customer by phone number
