@@ -218,6 +218,42 @@ app.post('/api/customers', async (req, res) => {
   }
 });
 
+// Displaying Order Status
+app.get('/api/orders/status', async (req, res) => {
+  try {
+    const orders = await prisma.order.findMany({
+      select: {
+        orderId: true,
+        orderDate: true,
+        totalAmount: true,
+      }
+    });
+
+    // Calculate status dynamically
+    const enrichedOrders = orders.map(order => {
+      const orderDate = new Date(order.orderDate);
+      const today = new Date();
+
+      let status;
+      if (orderDate > today){
+        status = 'Pending';
+      } else if (
+        orderDate.toDateString() === today.toDateString()
+    ){
+      status = 'In Progress';
+    } else{
+      status = 'Completed';
+    }
+    return { ...order, status };
+    });
+    
+    res.status(200).json(enrichedOrders); 
+  } catch (error) {
+    console.error("Error fetching order status:", error);
+    res.status(500).json({ error: 'Failed to fetch order status' });
+  }
+})
+
 // Posting detailed data on order to Order_Detail table
 
 
