@@ -237,3 +237,29 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('Server running on port:', PORT);
 });
+
+// List all orders(CUSTOMERS)
+app.get('/api/orders', async (req, res) => {
+  try {
+    const allOrders = await prisma.order.findMany();
+    res.json(allOrders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
+
+// Fetch personal information of a user
+app.get('/api/personal/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const personalInfo = await prisma.user.findUnique({
+      where: { id: parseInt(userId) }, // Assuming user ID is an integer
+    });
+    res.json(personalInfo);
+  } catch (error) {
+    console.error('Error fetching personal info:', error);
+    res.status(500).json({ error: 'Failed to fetch personal info' });
+  }
+});
+

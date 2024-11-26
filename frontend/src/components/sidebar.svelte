@@ -1,5 +1,5 @@
 <script>
-  import { Link } from "svelte-routing";
+  import { Link } from "svelte-routing"; // Optional if you're using <Link> instead of <a>
 </script>
 
 <div
@@ -27,5 +27,14 @@
           ><span>Customer</span></a
         >
       </li>
+
+      <!-- Add Personal Info Update link here -->
+      <li class="text-xl font-bold p-5 hover:scale-110">
+        <a href="/personal" class="flex items-center space-x-1 font-semibold">
+          <span>Update Personal Info</span>
+        </a>
+      </li>
+      
+
     </ul>
 </div>

@@ -1,47 +1,36 @@
 <script>
-  import { Route, Router, Link} from 'svelte-routing'
+  import { Route, Router, Link } from 'svelte-routing';
   import Sidebar from './components/sidebar.svelte';
-  import MedicinePage from './pages/medicines.svelte'
+  import MedicinePage from './pages/medicines.svelte';
   import Supplier from './pages/supplier.svelte';
   import Orders from './pages/orders.svelte';
   import Customers from './pages/customers.svelte';
   import Addmedicine from './pages/addmedicine.svelte';
   import Updatemedicine from './pages/updatemedicine.svelte';
   import Deletemedicine from './pages/deletemedicine.svelte';
+  import Password from './pages/password.svelte';
+  import PersonalInfoUpdatePage from './pages/personal.svelte';
 
 </script>
 
 <div class="flex">
-  <!-- Sidebar -->
+  <!-- Sidebar with Navigation Links -->
   <Sidebar />
-  <Router>
-  <Route path="/" > <!-- let:params -->
-    <MedicinePage />
-  </Route>
-  </Router>
-
-  <!-- Main Content Area -->
-  <main class="max-w-full overflow-x-scroll p-4 ">
+  <main class="max-w-full overflow-x-scroll p-4">
     <Router>
-      <Route path="/addmedicine">
-        <Addmedicine />
-      </Route>
-      <Route path="/updatemedicine">
-        <Updatemedicine />
-      </Route>
-      <Route path="/deletemedicine">
-        <Deletemedicine />
-      </Route>
-      <Route path="/supplier">
-        <Supplier />
-      </Route>
-      <Route path="/orders" >
-        <Orders />
-        </Route>
-      <Route path="/customer" >
-        <Customers />
-      </Route>
+      <!-- Main Route for the Medicine Page -->
+      <Route path="/" component={MedicinePage} />
+
+      <!-- Define other routes for your pages -->
+      <Route path="/addmedicine" component={Addmedicine} />
+      <Route path="/updatemedicine" component={Updatemedicine} />
+      <Route path="/deletemedicine" component={Deletemedicine} />
+      <Route path="/supplier" component={Supplier} />
+      <Route path="/orders" component={Orders} />
+      <Route path="/customer" component={Customers} />
+      <Route path="/password" component={Password} />
+      <Route path="/personal" component={PersonalInfoUpdatePage} /> 
+
     </Router>
   </main>
 </div>
-
