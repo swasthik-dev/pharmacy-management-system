@@ -162,11 +162,12 @@
   /* const saveorderdetail = saveOrderDetails(orderdetails);
   console.log(saveorderdetail); */
 
-  onMount(async () => {
+  async function displayStatus() {
+    orderStatus = await getOrderStatus();
+  }
+  onMount(() => {
     loadMedicines();
-    
-    // Displaying order status
-    orderStatus = await getOrderStatus(); 
+    displayStatus();
   });
 
 </script>

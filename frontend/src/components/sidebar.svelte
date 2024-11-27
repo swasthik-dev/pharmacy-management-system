@@ -27,13 +27,6 @@
           ><span>Customer</span></a
         >
       </li>
-
-      <!-- Add Personal Info Update link here -->
-      <li class="text-xl font-bold p-5 hover:scale-110">
-        <a href="/personal" class="flex items-center space-x-1 font-semibold">
-          <span>Update Personal Info</span>
-        </a>
-      </li>
       
 
     </ul>

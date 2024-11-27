@@ -9,14 +9,12 @@
   import Updatemedicine from './pages/updatemedicine.svelte';
   import Deletemedicine from './pages/deletemedicine.svelte';
   import Password from './pages/password.svelte';
-  import PersonalInfoUpdatePage from './pages/personal.svelte';
-
 </script>
 
 <div class="flex">
   <!-- Sidebar with Navigation Links -->
   <Sidebar />
-  <main class="max-w-full overflow-x-scroll p-4">
+  <main class="max-w-full overflow-x-scroll overflow-hidden p-4" style="scrollbar-width: none;">
     <Router>
       <!-- Main Route for the Medicine Page -->
       <Route path="/" component={MedicinePage} />
@@ -29,8 +27,6 @@
       <Route path="/orders" component={Orders} />
       <Route path="/customer" component={Customers} />
       <Route path="/password" component={Password} />
-      <Route path="/personal" component={PersonalInfoUpdatePage} /> 
-
     </Router>
   </main>
 </div>
