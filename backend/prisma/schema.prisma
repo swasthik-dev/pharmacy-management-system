@@ -33,24 +33,24 @@ model Order {
   orderdetails Order_Details[]
 }
 
-model Order_Details{
-  orderDetailId   String @id @default(cuid())
-  orderId         String
-  medicineId      String
-  qty             Int
-  subTotal        Float
-  order Order @relation(fields: [orderId], references: [orderId])
-  medicine Medicine @relation(fields: [medicineId], references: [medicineId])
+model Order_Details {
+  orderDetailId String   @id @default(cuid())
+  orderId       String
+  medicineId    String
+  qty           Int
+  subTotal      Float
+  medicine      Medicine @relation(fields: [medicineId], references: [medicineId])
+  order         Order    @relation(fields: [orderId], references: [orderId])
 }
 
-model Inventory{
-  inventoryId       String   @id
-  medicineId        String
-  supplierId        String
-  qtyReceived       Int
-  dateReceived      DateTime
-  medicine Medicine @relation(fields: [medicineId], references: [medicineId])
-  supplier Supplier @relation(fields: [supplierId], references: [supplierId])
+model Inventory {
+  inventoryId  String   @id
+  medicineId   String
+  supplierId   String
+  qtyReceived  Int
+  dateReceived DateTime
+  medicine     Medicine @relation(fields: [medicineId], references: [medicineId])
+  supplier     Supplier @relation(fields: [supplierId], references: [supplierId])
 }
 
 model Supplier {
@@ -73,7 +73,7 @@ model Doctor {
 model Customer {
   customerId    String         @id
   name          String
-  contactNumber String @unique
+  contactNumber String         @unique
   address       String
   email         String
   orders        Order[]
