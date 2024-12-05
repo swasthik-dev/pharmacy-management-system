@@ -8,6 +8,32 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
+// Login 
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {email},
+    });
+
+    if(!user) {
+      return res.status(404).json({ success:false, message: "User not found"});
+    }
+
+    // Compare password
+    if(password !== user.password){
+      return res.status(401).json({ success:false, message: "Invalid Password"});
+    }
+
+    // If successful
+    res.json({success:true, message:"Login successful"});
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 // List all medicine
 app.get('/api/medicines', async (req, res) => {
   try{

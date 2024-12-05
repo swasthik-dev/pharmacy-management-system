@@ -1,7 +1,10 @@
+import { navigate } from "svelte-routing";
+import { render } from "svelte/server";
+
 const API_BASE_URL = 'http://localhost:3000/api';
 
 // Fetching medicines with optional filters
-export async function fetchMedicines({medicineId = "", name = "" } = {}) {
+export async function fetchMedicines({ medicineId = "", name = "" } = {}) {
   const query = new URLSearchParams();
   if (medicineId) query.append('medId', medicineId);
   if (name) query.append('name', name);
@@ -31,11 +34,11 @@ export async function addMedicine(medicineData) {
   if (!response.ok) {
     throw new Error('Failed to add new medicine');
   }
-  else{
+  else {
     window.location.reload(); // Reload current page
-      setTimeout(() => {
-        window.location.assign("/"); // Navigate to medicine page
-      }, 1000); // wait for one second to ensure reload happens before nav
+    setTimeout(() => {
+      window.location.assign("/"); // Navigate to medicine page
+    }, 1000); // wait for one second to ensure reload happens before nav
   }
 }
 
@@ -50,11 +53,11 @@ export async function updateMedicine(medicineId, medicineData) {
   console.log('Updating data:', medicineData)
   if (!response.ok) {
     throw new Error('Failed to update medicine');
-  } else{
-      window.location.reload(); // Reload current page
-      setTimeout(() => {
-        window.location.assign("/"); // Navigate to medicine page
-      }, 1000); // wait for one second to ensure reload happens before nav
+  } else {
+    window.location.reload(); // Reload current page
+    setTimeout(() => {
+      window.location.assign("/"); // Navigate to medicine page
+    }, 1000); // wait for one second to ensure reload happens before nav
   }
 }
 
@@ -65,7 +68,7 @@ export async function deleteMedicine(medicineId) {
   });
   if (!response.ok) {
     throw new Error('Failed to delete medicine');
-  } else{
+  } else {
     alert("Medicine deleted successfully!");
     window.location.reload(); // Reload current page
   }
@@ -93,9 +96,9 @@ export async function fetchNearExpiryMedicines(daysUntilExpiry = 45) {
 export async function fetchSuppliers() {
   const response = await fetch(`${API_BASE_URL}/suppliers`);
   console.log('Response from API:', response)
-  if (!response.ok){
+  if (!response.ok) {
     throw new Error('Failed to fetch suppliers');
-  }  
+  }
   return response.json();
 }
 
@@ -103,7 +106,7 @@ export async function fetchSuppliers() {
 export async function placeOrders(orderData) {
   const orders = await fetch(`${API_BASE_URL}/orders`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(orderData)
   });
   console.log('Placing order:', orderData)
@@ -118,7 +121,7 @@ export async function placeOrders(orderData) {
 export async function saveOrderDetails(orderdetails) {
   const orderdetail = await fetch(`${API_BASE_URL}/orderdetails`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(orderdetails)
   });
   console.log('Saving order details:', orderdetails)
@@ -131,7 +134,7 @@ export async function saveOrderDetails(orderdetails) {
 
 // Displaying Order and Status
 export async function getOrderStatus() {
-  try {    
+  try {
     const response = await fetch(`${API_BASE_URL}/orders/status`);
     if (!response.ok) {
       throw new Error('Failed to fetch order status');
@@ -181,9 +184,9 @@ export async function fetchCustomers() {
 export async function searchCustomerByPhone(phoneNumber) {
   try {
     const fetchedCustomer = await fetch(`${API_BASE_URL}/customers/${phoneNumber}`);
-    if (fetchedCustomer.ok){
+    if (fetchedCustomer.ok) {
       return await fetchedCustomer.json();
-    }else{
+    } else {
       throw new Error("Failed to search customer");
     }
   } catch (error) {
