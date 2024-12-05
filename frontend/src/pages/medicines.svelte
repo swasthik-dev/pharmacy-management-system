@@ -63,21 +63,6 @@
 
     <!-- Filter Section -->
     <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <!-- Medicine ID Search -->
-      <div>
-        <label for="med-id-input" class="block text-black font-semibold mb-1"
-          >Search by Medicine ID</label
-        >
-        <input
-          id="med-id-input"
-          type="text"
-          bind:value={medicineId}
-          on:input={loadMedicines}
-          class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
-          placeholder="Enter Medicine ID"
-        />
-      </div>
-
       <!-- Medicine Name Search -->
       <div>
         <label for="name-input" class="block text-black font-semibold mb-1"
@@ -95,12 +80,12 @@
     </div>
     <div class="flex gap-5">
       <div
-        class="bg-white w-[65%] overflow-x-auto overflow-hidden border border-gray-300 rounded-md"
+        class="bg-white w-[65%] overflow-x-auto max-h-[400px] border border-gray-300 rounded-md"
         style="scrollbar-width: none;"
       >
         <!-- Medicine List -->
         <table class="table-auto bg-white shadow-md rounded-lg">
-          <thead>
+          <thead class="sticky top-0">
             <tr
               class="bg-[#bbbaba] text-foreground uppercase text-sm leading-normal"
             >
@@ -142,48 +127,45 @@
         </table>
       </div>
       <!-- Low Stock & Expiry div-->
-      <div class="">
-
+      <div>
         <!-- Low Stock-->
-
-        <div class="overflow-x-auto py-5" style="scrollbar-width: none;">
           <h1 class="font-semibold text-xl">Low Stock</h1>
-          <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
-            <thead>
-              <tr
-                class="bg-[#bbbaba] text-foreground uppercase text-sm leading-normal"
-              >
-                <th class="py-3 px-[18px] text-left">Med ID</th>
-                <th class="py-3 px-[18px] text-left">Name</th>
-                <th class="py-3 px-[18px] text-left">Stock Qty</th>
-              </tr>
-            </thead>
-            {#if lowStockMedicines.length}
-              <tbody>
-                {#each lowStockMedicines as lowstock}
-                  <tr class="border-b border-white hover:bg-[#d6d4d4]">
-                    <td class="py-3 px-6">{lowstock.medicineId}</td>
-                    <td class="py-3 px-6">{lowstock.name}</td>
-                    <td class="py-3 px-6">{lowstock.stockQty}</td>
-                  </tr>
-                {/each}
-              </tbody>
-            {:else}
-              <tbody
-                ><tr class="text-black"
-                  ><td>No low stock medicines found</td></tr
-                ></tbody
-              >
-            {/if}
-          </table>
-        </div>
+          <div class="overflow-x-auto max-h-[200px]" style="scrollbar-width: none;">
+            <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
+              <thead class="sticky top-0">
+                <tr
+                  class="bg-[#bbbaba] text-foreground uppercase text-sm leading-normal"
+                >
+                  <th class="py-3 px-[18px] text-left">Med ID</th>
+                  <th class="py-3 px-[18px] text-left">Name</th>
+                  <th class="py-3 px-[18px] text-left">Stock Qty</th>
+                </tr>
+              </thead>
+              {#if lowStockMedicines.length}
+                <tbody>
+                  {#each lowStockMedicines as lowstock}
+                    <tr class="border-b border-white hover:bg-[#d6d4d4]">
+                      <td class="py-3 px-6">{lowstock.medicineId}</td>
+                      <td class="py-3 px-6">{lowstock.name}</td>
+                      <td class="py-3 px-6">{lowstock.stockQty}</td>
+                    </tr>
+                  {/each}
+                </tbody>
+              {:else}
+                <tbody
+                  ><tr class="text-black"
+                    ><td>No low stock medicines found</td></tr
+                  ></tbody
+                >
+              {/if}
+            </table>
+          </div>
 
         <!-- Expiry Date-->
-
-        <div class="overflow-x-auto" style="scrollbar-width: none;">
-          <h1 class="font-semibold text-xl">Expiry Date</h1>
+        <h1 class="font-semibold text-xl">Expiry Date</h1>
+        <div class="overflow-x-auto max-h-[200px]" style="scrollbar-width: none;">
           <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
-            <thead>
+            <thead class="sticky top-0">
               <tr
                 class="bg-[#bbbaba] text-foreground uppercase text-sm leading-normal"
               >
