@@ -31,7 +31,12 @@ export async function addMedicine(medicineData) {
   if (!response.ok) {
     throw new Error('Failed to add new medicine');
   }
-  return response.json();
+  else{
+    window.location.reload(); // Reload current page
+      setTimeout(() => {
+        window.location.assign("/"); // Navigate to medicine page
+      }, 1000); // wait for one second to ensure reload happens before nav
+  }
 }
 
 
@@ -45,8 +50,12 @@ export async function updateMedicine(medicineId, medicineData) {
   console.log('Updating data:', medicineData)
   if (!response.ok) {
     throw new Error('Failed to update medicine');
+  } else{
+      window.location.reload(); // Reload current page
+      setTimeout(() => {
+        window.location.assign("/"); // Navigate to medicine page
+      }, 1000); // wait for one second to ensure reload happens before nav
   }
-  return response.json();
 }
 
 // Delete a medicine
@@ -56,11 +65,14 @@ export async function deleteMedicine(medicineId) {
   });
   if (!response.ok) {
     throw new Error('Failed to delete medicine');
+  } else{
+    alert("Medicine deleted successfully!");
+    window.location.reload(); // Reload current page
   }
 }
 
 // Fetch low stock medicines
-export async function fetchLowStockMedicines(threshold = 10) {
+export async function fetchLowStockMedicines(threshold = 25) {
   const response = await fetch(`${API_BASE_URL}/medicines/low-stock?threshold=${threshold}`);
   if (!response.ok) {
     throw new Error('Failed to fetch low stock medicines');
@@ -69,7 +81,7 @@ export async function fetchLowStockMedicines(threshold = 10) {
 }
 
 // Fetch near-expiry medicines
-export async function fetchNearExpiryMedicines(daysUntilExpiry = 30) {
+export async function fetchNearExpiryMedicines(daysUntilExpiry = 45) {
   const response = await fetch(`${API_BASE_URL}/medicines/near-expiry?days=${daysUntilExpiry}`);
   if (!response.ok) {
     throw new Error('Failed to fetch near-expiry medicines');
@@ -158,23 +170,23 @@ export async function createNewCustomer(customerData) {
 
 // Fetch customers data
 export async function fetchCustomers() {
-  const response = await fetch('/api/customers');
-  if (!response.ok) throw new Error('Failed to fetch customers');
+  const response = await fetch(`${API_BASE_URL}/customers`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch customers');
+  }
   return response.json();
 }
 
-// Fetch low stock customers (if you need it)
-export async function fetchLowStockCustomers() {
-  const response = await fetch('/api/low-stock-customers');
-  if (!response.ok) throw new Error('Failed to fetch low stock customers');
-  return response.json();
+// Filter by customer phone number
+export async function searchCustomerByPhone(phoneNumber) {
+  try {
+    const fetchedCustomer = await fetch(`${API_BASE_URL}/customers/${phoneNumber}`);
+    if (fetchedCustomer.ok){
+      return await fetchedCustomer.json();
+    }else{
+      throw new Error("Failed to search customer");
+    }
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+  }
 }
-
-// Fetch near expiry customers (if needed)
-export async function fetchNearExpiryCustomers() {
-  const response = await fetch('/api/near-expiry-customers');
-  if (!response.ok) throw new Error('Failed to fetch near expiry customers');
-  return response.json();
-}
-
-

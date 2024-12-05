@@ -97,9 +97,10 @@ app.put('/api/medicines/:medicineId', async (req, res) => {
 // Delete a medicine
 app.delete('/api/medicines/:medicineId', async (req, res) => {
   const { medicineId } = req.params;
+  console.log('Deleteing medicine with ID:', medicineId)
   try {
     await prisma.medicine.delete({
-      where: { medicineId },
+      where: { medicineId: medicineId },
     });
     res.status(204).send();
   } catch (error) {
@@ -257,15 +258,30 @@ app.get('/api/orders/status', async (req, res) => {
 // Posting detailed data on order to Order_Detail table
 
 
-// List all medicine
+// List all customers
 app.get('/api/customers', async (req, res) => {
   try{
-    const allmedicines = await prisma.customer.findMany()
-    console.log('All medicines:', allmedicines)
-    res.json(allmedicines);
+    const customers = await prisma.customer.findMany()
+    console.log('All customers:', customers)
+    res.json(customers);
   } catch (error) {
     console.error('Error fetching medicines:', error);
     res.status(500).json({ error: 'Failed to fetch medicines' });
+  }
+})
+
+// Customers search by phone number
+app.get('/api/customer/:phoneNumber', async (req, res) => {
+  const phoneNumber = req.params;
+
+  try {
+    const customerByPhone = await prisma.customer.findMany({
+      where: { phoneNumber: phoneNumber}
+    });
+
+    res.json(customerByPhone);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch customer phone number" });
   }
 })
 
@@ -273,29 +289,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log('Server running on port:', PORT);
 });
-
-// List all orders(CUSTOMERS)
-app.get('/api/orders', async (req, res) => {
-  try {
-    const allOrders = await prisma.order.findMany();
-    res.json(allOrders);
-  } catch (error) {
-    console.error('Error fetching orders:', error);
-    res.status(500).json({ error: 'Failed to fetch orders' });
-  }
-});
-
-// Fetch personal information of a user
-app.get('/api/personal/:userId', async (req, res) => {
-  const { userId } = req.params;
-  try {
-    const personalInfo = await prisma.user.findUnique({
-      where: { id: parseInt(userId) }, // Assuming user ID is an integer
-    });
-    res.json(personalInfo);
-  } catch (error) {
-    console.error('Error fetching personal info:', error);
-    res.status(500).json({ error: 'Failed to fetch personal info' });
-  }
-});
-
