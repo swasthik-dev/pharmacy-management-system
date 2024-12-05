@@ -87,6 +87,17 @@
     return [orders.map(order => order.medicineId), orders.map(order => order.selectedQty), orders.map(order => order.selectedQty * order.price)];
   }
 
+  // Generating Invoice
+  function generateInvoiceData() {
+    return orders.map((order) => ({
+      medicineId: order.medicineId,
+      name: order.name,
+      qty: order.selectedQty,
+      price_per_unit: order.price,
+      totalAmount: (order.selectedQty * order.price).toFixed(2),
+    }));
+  }
+
   // Place order function
   async function placeOrder() {
     if (orders.length === 0) {
