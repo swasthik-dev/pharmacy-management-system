@@ -63,6 +63,21 @@
 
     <!-- Filter Section -->
     <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <!-- Medicine ID Search -->
+      <div>
+        <label for="med-id-input" class="block text-black font-semibold mb-1"
+          >Search by Medicine ID</label
+        >
+        <input
+          id="med-id-input"
+          type="text"
+          bind:value={medicineId}
+          on:input={loadMedicines}
+          class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+          placeholder="Enter Medicine ID"
+        />
+      </div>
+
       <!-- Medicine Name Search -->
       <div>
         <label for="name-input" class="block text-black font-semibold mb-1"
